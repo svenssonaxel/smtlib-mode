@@ -6,8 +6,8 @@
 ;; v2 commands, as well as the command run-solver (bound to C-c C-c)
 ;; to run an SMT solver on the buffer or the region.
 
-;; Add the following lines to your .emacs 
-;; 
+;; Add the following lines to your .emacs
+;;
 ;;   (setq auto-mode-alist (cons '("\\.smt2$" . smtlib-mode) auto-mode-alist))
 ;;   (autoload 'smtlib-mode "smtlib" "Major mode for SMTLIB" t)
 
@@ -30,7 +30,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; Define a sparse local keymap with default key bindings
-(defvar smtlib-mode-map 
+(defvar smtlib-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-c") 'run-solver) map)
   "Keymap for smtlib-mode")
@@ -52,7 +52,7 @@
   "Syntax table for `smtlib-mode'.")
 
 ;; SMTLIB commands as keywords
-(setq 
+(defvar
  smtlib-keywords
  '("set-logic"
    "set-option"
@@ -77,13 +77,13 @@
    "get-info"
    "exit"))
 
-(setq smtlib-constants '("true" "false"))
+(defvar smtlib-constants '("true" "false"))
 
-(setq smtlib-cmds '("assert" "check-sat"))
+(defvar smtlib-cmds '("assert" "check-sat"))
 
-(setq smtlib-types '("Int" "Bool" "Real" "Array"))
+(defvar smtlib-types '("Int" "Bool" "Real" "Array"))
 
-(setq smtlib-combinators '("or" "and" "xor" "=>" "not" "ite" "forall" "exists" "let" "!"))
+(defvar smtlib-combinators '("or" "and" "xor" "=>" "not" "ite" "forall" "exists" "let" "!"))
 
 ;; This is probably pushing it. in case you want that, uncomment lines related
 ;; to operators and the corresponding entries in the syntax table.
@@ -91,11 +91,11 @@
 
 ;; Create an optimized regular expression for commands, match only
 ;; whole words
-(setq smtlib-keywords-regexp (regexp-opt smtlib-keywords 'words))
-(setq smtlib-constants-regexp (regexp-opt smtlib-constants 'words))
-(setq smtlib-types-regexp (regexp-opt smtlib-types 'words))
-(setq smtlib-combinators-regexp (regexp-opt smtlib-combinators 'words))
-(setq smtlib-cmds-regexp (regexp-opt smtlib-cmds 'words))
+(defvar smtlib-keywords-regexp (regexp-opt smtlib-keywords 'words))
+(defvar smtlib-constants-regexp (regexp-opt smtlib-constants 'words))
+(defvar smtlib-types-regexp (regexp-opt smtlib-types 'words))
+(defvar smtlib-combinators-regexp (regexp-opt smtlib-combinators 'words))
+(defvar smtlib-cmds-regexp (regexp-opt smtlib-cmds 'words))
 ;; (setq smtlib-operators-regexp (regexp-opt smtlib-operators 'words))
 
 ;; Clear memory
@@ -107,7 +107,7 @@
 ;; (setq smtlib-operators nil)
 
 ;; Create the list for font-lock
-(setq 
+(defvar
  smtlib-font-lock
  `(
    (,smtlib-keywords-regexp . font-lock-keyword-face)
@@ -127,6 +127,7 @@
    ))
 
 ;; Define the mode
+;;;###autoload
 (define-derived-mode smtlib-mode lisp-mode
   "SMTLIB mode"
   "Major mode for editing SMTLIB files"
@@ -144,9 +145,9 @@
   )
 
 ;; Default to run SMT solver
-(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver") 
+(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver")
 
-;; Command to run SMT solver on the whole buffer 
+;; Command to run SMT solver on the whole buffer
 (defun run-solver ()
   "Run the SMT solver on the buffer "
   (interactive)
