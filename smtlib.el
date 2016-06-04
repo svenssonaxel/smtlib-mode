@@ -29,6 +29,14 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;;###autoload
+(defgroup smtlib nil "SMTLIB" :prefix "smtlib-" :group 'languages)
+
+;;;###autoload
+(defcustom smtlib-solver-cmd "cvc4 --lang smt2"
+  "Command to run SMT solver"
+  :type 'string :group 'smtlib)
+
 ;; Define a sparse local keymap with default key bindings
 (defvar smtlib-mode-map
   (let ((map (make-sparse-keymap)))
@@ -143,9 +151,6 @@
   (setq smtlib-combinators-regexp nil)
   (setq smtlib-cmds-regexp nil)
   )
-
-;; Default to run SMT solver
-(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver")
 
 ;; Command to run SMT solver on the whole buffer
 (defun run-solver ()
