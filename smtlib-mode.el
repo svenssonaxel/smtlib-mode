@@ -150,11 +150,14 @@
 (defun run-solver ()
   "Run the SMT solver on the buffer "
   (interactive)
+  (let ((buffer "smt-solver-output"))
   (shell-command-on-region
    (if (region-active-p) (region-beginning) (point-min))
    (if (region-active-p) (region-end) (point-max))
    (read-shell-command "Run SMT solver: " smtlib-solver-cmd)
-   "smt-solver-output"))
+   buffer)
+  (with-current-buffer buffer (smtlib-mode))
+  ))
 
 ;; Need this as last line
 (provide 'smtlib-mode)
