@@ -6,8 +6,8 @@
 ;; v2 commands, as well as the command run-solver (bound to C-c C-c)
 ;; to run an SMT solver on the buffer or the region.
 
-;; Add the following lines to your .emacs 
-;; 
+;; Add the following lines to your .emacs
+;;
 ;;   (setq auto-mode-alist (cons '("\\.smt2$" . smtlib-mode) auto-mode-alist))
 ;;   (autoload 'smtlib-mode "smtlib" "Major mode for SMTLIB" t)
 
@@ -30,7 +30,7 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;; Define a sparse local keymap with default key bindings
-(defvar smtlib-mode-map 
+(defvar smtlib-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-c") 'run-solver) map)
   "Keymap for smtlib-mode")
@@ -52,7 +52,7 @@
   "Syntax table for `smtlib-mode'.")
 
 ;; SMTLIB commands as keywords
-(setq 
+(setq
  smtlib-keywords
  '("set-logic"
    "set-option"
@@ -107,7 +107,7 @@
 ;; (setq smtlib-operators nil)
 
 ;; Create the list for font-lock
-(setq 
+(setq
  smtlib-font-lock
  `(
    (,smtlib-keywords-regexp . font-lock-keyword-face)
@@ -144,9 +144,9 @@
   )
 
 ;; Default to run SMT solver
-(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver") 
+(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver")
 
-;; Command to run SMT solver on the whole buffer 
+;; Command to run SMT solver on the whole buffer
 (defun run-solver ()
   "Run the SMT solver on the buffer "
   (interactive)
@@ -154,7 +154,7 @@
    (if (region-active-p) (region-beginning) (point-min))
    (if (region-active-p) (region-end) (point-max))
    (read-shell-command "Run SMT solver: " smtlib-solver-cmd)
-   "SMT Solver Output"))
+   "smt-solver-output"))
 
 ;; Need this as last line
 (provide 'smtlib-mode)
