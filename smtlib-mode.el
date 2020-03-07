@@ -87,7 +87,7 @@
 
 ;; This is probably pushing it. in case you want that, uncomment lines related
 ;; to operators and the corresponding entries in the syntax table.
-;; (setq smtlib-operators '("+" "<" "<=" ">" ">=" "-" "*" "/" "div" "mod" "="))
+(setq smtlib-operators '("+" "<" "<=" ">" ">=" "-" "*" "/" "div" "mod" "="))
 
 ;; Create an optimized regular expression for commands, match only
 ;; whole words
@@ -96,7 +96,7 @@
 (setq smtlib-types-regexp (regexp-opt smtlib-types 'words))
 (setq smtlib-combinators-regexp (regexp-opt smtlib-combinators 'words))
 (setq smtlib-cmds-regexp (regexp-opt smtlib-cmds 'words))
-;; (setq smtlib-operators-regexp (regexp-opt smtlib-operators 'words))
+(setq smtlib-operators-regexp (regexp-opt smtlib-operators 'words))
 
 ;; Clear memory
 (setq smtlib-keywords nil)
@@ -158,6 +158,10 @@
    buffer)
   (with-current-buffer buffer (smtlib-mode))
   ))
+
+(add-to-list 'auto-mode-alist '("\\.smtlib$" . smtlib-mode))
+(add-to-list 'auto-mode-alist '("\\.smt$" . smtlib-mode))
+(add-to-list 'auto-mode-alist '("\\.smt2$" . smtlib-mode))
 
 ;; Need this as last line
 (provide 'smtlib-mode)
