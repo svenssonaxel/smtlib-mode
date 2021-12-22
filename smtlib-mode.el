@@ -55,6 +55,7 @@
    "declare-sort"
    "define-sort"
    "declare-fun"
+   "declare-const"
    "define-fun"
    "define-fun-rec"
    "define-funs-rec"
@@ -76,7 +77,7 @@
 
 (setq smtlib-cmds '("assert" "check-sat"))
 
-(setq smtlib-types '("Int" "Bool" "Real" "Array"))
+(setq smtlib-types '("Int" "Bool" "Real" "Array" "String"))
 
 (setq smtlib-combinators '("or" "and" "xor" "=>" "not" "ite" "forall" "exists" "let" "!"))
 
@@ -114,10 +115,10 @@
    ("\\b\\([0-9]*\\.?[0-9]+\\)\\b" . font-lock-constant-face)
    (":\\(\\sw+\\)" . font-lock-doc-face)
    ;; recognize logical constants decls/defs
-   ("\\(?:declare-fun\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)\\(?:\\s-\\|\n\\)+(\\(?:\\s-\\|\n\\)*)"
+   ("\\(?:declare-fun\\|declare-const\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)\\(?:\\s-\\|\n\\)+(\\(?:\\s-\\|\n\\)*)"
     (1 font-lock-variable-name-face))
    ;; recognize functions
-   ("\\(?:declare-fun\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)"
+   ("\\(?:declare-fun\\|declare-const\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)"
     (1 font-lock-function-name-face))
    ))
 
@@ -139,7 +140,10 @@
   )
 
 ;; Default to run SMT solver
-(defvar smtlib-solver-cmd "cvc4 --lang smt2" "Command to run SMT solver")
+(defcustom smtlib-solver-cmd "z3 -in -smt2"
+  "Command to run SMT solver"
+  :type 'string
+  :group 'smtlib-mode)
 
 ;; Command to run SMT solver on the whole buffer
 (defun run-solver ()
