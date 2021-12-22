@@ -81,9 +81,28 @@
 
 (setq smtlib-combinators '("or" "and" "xor" "=>" "not" "ite" "forall" "exists" "let" "!"))
 
-;; This is probably pushing it. in case you want that, uncomment lines related
-;; to operators and the corresponding entries in the syntax table.
-(setq smtlib-operators '("+" "<" "<=" ">" ">=" "-" "*" "/" "div" "mod" "="))
+(setq smtlib-operators
+      '(
+	;; core (excluding those in `smtlib-combinators')
+	"=" "distinct"
+	;; int
+	"+" "<" "<=" ">" ">=" "-" "*" "/" "div" "mod" "abs"
+	;; array
+	"select" "store"
+	;; string
+	"str.++" "str.len" "str.<"
+	;; regex
+	"str.to_re" "str.in_re" "str.to.re" "str.in.re"
+	"re.none" "re.all" "re.allchar" "re.++" "re.union" "re.inter" "re.*"
+	;; addtional string functions
+	"str.<=" "str.at" "str.substr" "str.prefixof" "str.suffixof" "str.contains"
+	"str.indexof" "str.replace" "str.replace_all"
+	"str.replace_re" "str.repalce_re_all"
+	"re.comp" "re.diff" "re.+" "re.opt" "re.range" "re.^" "re.loop"
+	;; string <-> int
+	"str.is_digit" "str.to_code" "str.from_code" "str.to_int" "str.from_int"
+	)
+      )
 
 ;; Create an optimized regular expression for commands, match only
 ;; whole words
@@ -92,7 +111,7 @@
 (setq smtlib-types-regexp (regexp-opt smtlib-types 'words))
 (setq smtlib-combinators-regexp (regexp-opt smtlib-combinators 'words))
 (setq smtlib-cmds-regexp (regexp-opt smtlib-cmds 'words))
-(setq smtlib-operators-regexp (regexp-opt smtlib-operators 'words))
+(setq smtlib-operators-regexp (regexp-opt smtlib-operators 'symbols))
 
 ;; Clear memory
 (setq smtlib-keywords nil)
@@ -100,7 +119,7 @@
 (setq smtlib-types nil)
 (setq smtlib-combinators nil)
 (setq smtlib-cmds nil)
-;; (setq smtlib-operators nil)
+(setq smtlib-operators nil)
 
 ;; Create the list for font-lock
 (setq
@@ -109,7 +128,7 @@
    (,smtlib-keywords-regexp . font-lock-keyword-face)
    (,smtlib-constants-regexp . font-lock-constant-face)
    (,smtlib-types-regexp . font-lock-type-face)
-   ;; (,smtlib-operators-regexp . font-lock-variable-name-face)
+   (,smtlib-operators-regexp . font-lock-function-name-face)
    (,smtlib-combinators-regexp . font-lock-builtin-face)
    (,smtlib-cmds-regexp . font-lock-warning-face)
    ("\\b\\([0-9]*\\.?[0-9]+\\)\\b" . font-lock-constant-face)
@@ -118,7 +137,7 @@
    ("\\(?:declare-fun\\|declare-const\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)\\(?:\\s-\\|\n\\)+(\\(?:\\s-\\|\n\\)*)"
     (1 font-lock-variable-name-face))
    ;; recognize functions
-   ("\\(?:declare-fun\\|declare-const\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)"
+   ("\\(?:declare-fun\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)"
     (1 font-lock-function-name-face))
    ))
 
@@ -134,7 +153,7 @@
   (setq smtlib-keywords-regexp nil)
   (setq smtlib-constants-regexp nil)
   (setq smtlib-types-regexp nil)
-  ;; (setq smtlib-operators-regexp nil)
+  (setq smtlib-operators-regexp nil)
   (setq smtlib-combinators-regexp nil)
   (setq smtlib-cmds-regexp nil)
   )
