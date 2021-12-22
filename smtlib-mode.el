@@ -164,11 +164,16 @@
   :type 'string
   :group 'smtlib-mode)
 
+(defcustom smtlib-output-buffer-name "*SMT Solver Output*"
+  "Name of a buffer into which SMT solver output is inserted."
+  :type 'string
+  :group 'smtlib-mode)
+
 ;; Command to run SMT solver on the whole buffer
 (defun run-solver ()
   "Run the SMT solver on the buffer "
   (interactive)
-  (let ((buffer "smt-solver-output"))
+  (let ((buffer smtlib-output-buffer-name))
   (shell-command-on-region
    (if (region-active-p) (region-beginning) (point-min))
    (if (region-active-p) (region-end) (point-max))
