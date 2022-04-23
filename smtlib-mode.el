@@ -143,7 +143,7 @@
 
 ;; Define the mode
 (define-derived-mode smtlib-mode lisp-mode
-  "SMTLIB mode"
+  "SMTLIB"
   "Major mode for editing SMTLIB files"
 
   ;; code for syntax highlighting
