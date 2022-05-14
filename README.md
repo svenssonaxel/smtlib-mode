@@ -10,8 +10,8 @@ Add the following to your `.emacs` file:
 (autoload 'smtlib-mode "smtlib-mode" "Major mode for SMTLIB" t)
 ```
 
-The command to run the SMT solver is by default "cvc4 --lang smt2", modify and add the following line to your .emacs to change.
+The command to run the SMT solver is by default "cvc5 --lang smt2", modify and add the following line to your .emacs to change.
 
 ```
-(setq smtlib-mode/solver-cmd "cvc4 --lang smt2")
+(setq smtlib-mode/solver-cmd "cvc5 --lang smt2")
 ```

@@ -8,10 +8,10 @@
 ;; v2 commands, as well as the command smtlib-mode/run-solver (bound to C-c C-c)
 ;; to run an SMT solver on the buffer or the region.
 
-;; The command to run the SMT solver is by default "cvc4 --lang smt2",
+;; The command to run the SMT solver is by default "cvc5 --lang smt2",
 ;; modify and add the following line to your .emacs to change.
 
-;;   (setq smtlib-mode/solver-cmd "cvc4 --lang smt2")
+;;   (setq smtlib-mode/solver-cmd "cvc5 --lang smt2")
 
 ;; This program is free software: you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
