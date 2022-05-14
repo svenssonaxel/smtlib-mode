@@ -1,5 +1,7 @@
 ;;; smtlib-mode.el --- Major mode to edit and run SMTLIB v2 files
 
+;;; Commentary:
+
 ;; Author: Christoph Sticksel (christoph@sticksel.info), Alain Mebsout
 
 ;; This mode is based on lisp-mode and provides highlighting of SMTLIB
@@ -24,12 +26,14 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;;; Code:
+
 ;;;###autoload
-(defgroup smtlib nil "SMTLIB" :prefix "smtlib-" :group 'languages)
+(defgroup smtlib nil "SMTLIB mode." :prefix "smtlib-" :group 'languages)
 
 ;;;###autoload
 (defcustom smtlib-solver-cmd "cvc4 --lang smt2"
-  "Command to run SMT solver"
+  "Command to run SMT solver."
   :type 'string :group 'smtlib)
 (defcustom smtlib-output-buffer-name "*SMT Solver Output*"
   "Name of a buffer into which SMT solver output is inserted."
@@ -39,7 +43,7 @@
 (defvar smtlib-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-c") 'run-solver) map)
-  "Keymap for smtlib-mode")
+  "Keymap for smtlib-mode.")
 
 ;; Create syntax table, add characters as word components
 (defvar smtlib-mode-syntax-table
@@ -92,7 +96,7 @@
 
 (defvar smtlib-combinators '("or" "and" "xor" "=>" "not" "ite" "forall" "exists" "let" "!"))
 
-(setq smtlib-operators
+(defvar smtlib-operators
       '(
 	;; core (excluding those in `smtlib-combinators')
 	"=" "distinct"
@@ -122,7 +126,7 @@
 (defvar smtlib-types-regexp (regexp-opt smtlib-types 'words))
 (defvar smtlib-combinators-regexp (regexp-opt smtlib-combinators 'words))
 (defvar smtlib-cmds-regexp (regexp-opt smtlib-cmds 'words))
-(setq smtlib-operators-regexp (regexp-opt smtlib-operators 'symbols))
+(defvar smtlib-operators-regexp (regexp-opt smtlib-operators 'symbols))
 
 ;; Clear memory
 (setq smtlib-keywords nil)
@@ -156,7 +160,7 @@
 ;;;###autoload
 (define-derived-mode smtlib-mode lisp-mode
   "SMTLIB"
-  "Major mode for editing SMTLIB files"
+  "Major mode for editing SMTLIB files."
 
   ;; code for syntax highlighting
   (setq font-lock-defaults '((smtlib-font-lock)))
@@ -171,7 +175,7 @@
   )
 
 (defun run-solver ()
-  "Run the SMT solver on the buffer "
+  "Run the SMT solver on the buffer."
   (interactive)
   (let ((buffer smtlib-output-buffer-name))
   (shell-command-on-region
