@@ -1,4 +1,4 @@
-;;; smtlib.el --- Major mode to edit and run SMTLIB v2 files
+;;; smtlib-mode.el --- Major mode to edit and run SMTLIB v2 files
 
 ;; Author: Christoph Sticksel (christoph@sticksel.info), Alain Mebsout
 
@@ -164,3 +164,4 @@
 
 ;; Need this as last line
 (provide 'smtlib-mode)
+;;; smtlib-mode.el ends here
