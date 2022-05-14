@@ -64,6 +64,14 @@
     st)
   "Syntax table for `smtlib-mode'.")
 
+;; Faces
+(defvar smtlib-mode/operators-face 'font-lock-function-name-face
+  "Face used by smtlib-mode to highlight operators.")
+(defvar smtlib-mode/combinators-face 'font-lock-builtin-face
+  "Face used by smtlib-mode to highlight combinators.")
+(defvar smtlib-mode/cmds-face 'font-lock-warning-face
+  "Face used by smtlib-mode to highlight commands.")
+
 ;; Create the list for font-lock
 (defvar
   smtlib-mode/font-lock
@@ -198,9 +206,9 @@
       (,smtlib-keywords-regexp . font-lock-keyword-face)
       (,smtlib-constants-regexp . font-lock-constant-face)
       (,smtlib-types-regexp . font-lock-type-face)
-      (,smtlib-operators-regexp . font-lock-function-name-face)
-      (,smtlib-combinators-regexp . font-lock-builtin-face)
-      (,smtlib-cmds-regexp . font-lock-warning-face)
+      (,smtlib-operators-regexp . smtlib-mode/operators-face)
+      (,smtlib-combinators-regexp . smtlib-mode/combinators-face)
+      (,smtlib-cmds-regexp . smtlib-mode/cmds-face)
       ("\\b\\([0-9]*\\.?[0-9]+\\)\\b" . font-lock-constant-face)
       (":\\(\\sw+\\)" . font-lock-doc-face)
       ;; recognize logical constants decls/defs
