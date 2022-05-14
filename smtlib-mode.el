@@ -26,6 +26,9 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;; References to page numbers are for the specification of smtlib 2.6, see
+;; https://smtlib.cs.uiowa.edu/papers/smt-lib-reference-v2.6-r2021-05-12.pdf
+
 ;;; Code:
 
 ;;;###autoload
@@ -51,66 +54,78 @@
 ;; Create syntax table, add characters as word components
 (defvar smtlib-mode/syntax-table
   (let ((st (make-syntax-table lisp-mode-syntax-table)))
-    (modify-syntax-entry ?_ "w" st)
-    (modify-syntax-entry ?. "w" st)
-    (modify-syntax-entry ?@ "w" st)
-    (modify-syntax-entry ?! "w" st)
-    (modify-syntax-entry ?? "w" st)
-    (modify-syntax-entry ?- "w" st)
-    ;; (modify-syntax-entry ?+ "w" st)
-    ;; (modify-syntax-entry ?< "w" st)
-    ;; (modify-syntax-entry ?= "w" st)
-    ;; (modify-syntax-entry ?> "w" st)
-    st)
-  "Syntax table for `smtlib-mode'.")
+    ;; See p. 23
+    (dolist (ch '(?~ ?! ?@ ?$ ?% ?^ ?& ?* ?_ ?- ?+ ?= ?< ?> ?. ?? ?/))
+      (modify-syntax-entry ch "w" st))
+    ;; The hash character is made to word component in order to be able to
+    ;; highlight hexadecimal and binary constants.
+    (modify-syntax-entry ?# "w" st)
+    st))
 
 ;; Faces
 (defvar smtlib-mode/operators-face 'font-lock-function-name-face
   "Face used by smtlib-mode to highlight operators.")
 (defvar smtlib-mode/combinators-face 'font-lock-builtin-face
   "Face used by smtlib-mode to highlight combinators.")
-(defvar smtlib-mode/cmds-face 'font-lock-warning-face
+(defvar smtlib-mode/cmds-face 'font-lock-keyword-face
   "Face used by smtlib-mode to highlight commands.")
 
 ;; Create the list for font-lock
 (defvar
   smtlib-mode/font-lock
-  (let* (;; SMTLIB commands as keywords
-         (smtlib-keywords
+  (let* ((smtlib-keywords ;; Basic reserved words, p. 23
           '(
-            "set-logic"
-            "set-option"
-            "set-info"
-            "declare-sort"
-            "define-sort"
-            "declare-fun"
+            "BINARY"
+            "DECIMAL"
+            "HEXADECIMAL"
+            "NUMERAL"
+            "STRING"
+            "_"
+            "!"
+            "as"
+            "let"
+            "exists"
+            "forall"
+            "match"
+            "par"
+            ))
+         (smtlib-cmds ;; Commands, p. 45
+          '(
+            "assert"
+            "check-sat"
+            "check-sat-assuming"
             "declare-const"
+            "declare-datatype"
+            "declare-datatypes"
+            "declare-fun"
+            "declare-sort"
             "define-fun"
             "define-fun-rec"
             "define-funs-rec"
-            "push"
-            "pop"
-            ;; "assert"
-            ;; "check-sat"
+            "define-sort"
+            "echo"
+            "exit"
             "get-assertions"
-            "get-proof"
+            "get-assignment"
+            "get-info"
             "get-model"
+            "get-option"
+            "get-proof"
+            "get-unsat-assumptions"
             "get-unsat-core"
             "get-value"
-            "get-assignment"
-            "get-option"
-            "get-info"
-            "exit"
+            "pop"
+            "push"
+            "reset"
+            "reset-assertions"
+            "set-info"
+            "set-logic"
+            "set-option"
             ))
          (smtlib-constants
           '(
             "true"
             "false"
-            ))
-         (smtlib-cmds
-          '(
-            "assert"
-            "check-sat"
             ))
          (smtlib-types
           '(
@@ -210,6 +225,8 @@
       (,smtlib-combinators-regexp . smtlib-mode/combinators-face)
       (,smtlib-cmds-regexp . smtlib-mode/cmds-face)
       ("\\b\\([0-9]*\\.?[0-9]+\\)\\b" . font-lock-constant-face)
+      ("\\b#x\\([0-9a-fA-F]+\\)\\b" . font-lock-constant-face)
+      ("\\b#b\\([0-1]+\\)\\b" . font-lock-constant-face)
       (":\\(\\sw+\\)" . font-lock-doc-face)
       ;; recognize logical constants decls/defs
       ("\\(?:declare-fun\\|declare-const\\|define-fun\\|define-fun-rec\\)\\(?:\\s-\\|\n\\)+\\(\\sw+\\)\\(?:\\s-\\|\n\\)+(\\(?:\\s-\\|\n\\)*)"
