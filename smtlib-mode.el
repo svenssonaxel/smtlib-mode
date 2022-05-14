@@ -216,7 +216,8 @@
 (define-derived-mode smtlib-mode lisp-mode
   "SMTLIB"
   "Major mode for editing SMTLIB files."
-
+  ;; Syntax table
+  (set-syntax-table smtlib-mode/syntax-table)
   ;; Syntax highlighting
   (setq font-lock-defaults '((smtlib-mode/font-lock))))
 
