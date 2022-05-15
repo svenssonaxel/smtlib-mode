@@ -41,9 +41,14 @@
 (defcustom smtlib-mode/solver-cmd "cvc5 --lang smt2"
   "Command to run SMT solver."
   :type 'string :group 'smtlib-mode)
+;;;###autoload
 (defcustom smtlib-mode/output-buffer-name "*SMT Solver Output*"
   "Name of a buffer into which SMT solver output is inserted."
   :type 'string :group 'smtlib-mode)
+;;;###autoload
+(defcustom smtlib-mode/ask-for-solver-cmd t
+  "If non-nil, ask the user to confirm the solver command."
+  :type 'boolean :group 'smtlib-mode)
 
 ;; Define a sparse local keymap with default key bindings
 (defvar smtlib-mode-map
@@ -253,7 +258,9 @@
     (shell-command-on-region
      (if (region-active-p) (region-beginning) (point-min))
      (if (region-active-p) (region-end) (point-max))
-     (read-shell-command "Run SMT solver: " smtlib-mode/solver-cmd)
+     (if smtlib-mode/ask-for-solver-cmd
+         (read-shell-command "Run SMT solver: " smtlib-mode/solver-cmd)
+       smtlib-mode/solver-cmd)
      buffer)
     (with-current-buffer buffer (smtlib-mode))))
 

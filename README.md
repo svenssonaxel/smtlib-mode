@@ -15,3 +15,10 @@ The command to run the SMT solver is by default "cvc5 --lang smt2", modify and a
 ```
 (setq smtlib-mode/solver-cmd "cvc5 --lang smt2")
 ```
+
+When you run the solver, you are by default asked to confirm the command to be run.
+You can forgo this question by adding the following to your `.emacs` file:
+
+```
+(setq smtlib-mode/ask-for-solver-cmd nil)
+```
